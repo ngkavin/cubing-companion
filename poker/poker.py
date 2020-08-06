@@ -1,14 +1,14 @@
-import numpy as np
 from itertools import product
 from random import sample
-import sys
 import re
+
 
 class Game():
     def __init__(self, buy_in):
         self._balance = int(buy_in)
         self._blind = int(buy_in / 100)
-        self._CARDS = list(product(['A','2','3','4','5','6','7','8','9','10','J','Q','K'],
+        self._CARDS = list(product(['A', '2', '3', '4', '5', '6', '7', '8', '9',
+                                    'T', 'J', 'Q', 'K'],
                                    ['\u2666', '\u2665', '\u2660', '\u2663']))
         # self._CARDS = list(product(['10','J','Q','K'],
         #                            ['\u2666', '\u2665', '\u2660', '\u2663']))
@@ -33,7 +33,7 @@ class Game():
             '7': 7,
             '8': 8,
             '9': 9,
-            '10': 10,
+            'T': 10,
             'J': 11,
             'Q': 12,
             'K': 13,
@@ -105,14 +105,14 @@ class Game():
             a_low = [1] + values[:-1]
             # Check for ace low straight
             if (a_low[4] == a_low[3] + 1 and a_low[3] == a_low[2] + 1 and
-                a_low[2] == a_low[1] + 1 and a_low[1] == a_low[0] + 1):
+               a_low[2] == a_low[1] + 1 and a_low[1] == a_low[0] + 1):
                 straight = True
             else:
                 straight = False
 
         # Check straight
         if (values[4] == values[3] + 1 and values[3] == values[2] + 1 and
-            values[2] == values[1] + 1 and values[1] == values[0] + 1):
+           values[2] == values[1] + 1 and values[1] == values[0] + 1):
             # Check for ace high straight
             if values[4] == self.val_table['A']:
                 royal_straight = True
@@ -150,7 +150,6 @@ class Game():
             self.update_balance("LOSE")
         print("__________________________________")
         pass
-
 
     def update_balance(self, result):
         self._balance = self._balance + self._bet * self.pay_table[result]
@@ -215,18 +214,13 @@ class Game():
 
         disp = disp[:-2]
         line = "-----------------------------"
-        for x in range(disp.count("10")):
-            line = line + "-"
 
-        idx = [m.start() for m in re.finditer('10', disp)]
-        for i in idx:
-            choice = choice[:(i+3)] + " " + choice[(i+3):]
-        print(line)
         print(disp)
         print(line)
         if show_choice:
             print(choice)
         pass
+
 
 print("\nWELCOME TO JACKS OR HIGHER VIDEO POKER")
 print("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+")
